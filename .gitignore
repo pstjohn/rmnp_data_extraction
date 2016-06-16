@@ -4,3 +4,10 @@
 __pycache__
 *.sw[op]
 .ipynb_checkpoints
+
+campsites
+nps_boundary
+romo_tracts
+ROMO_TRANS_Trail_ln
+romogeodata
+*.RHistory
