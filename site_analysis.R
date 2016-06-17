@@ -1,11 +1,26 @@
 rm(list = ls())
-# Read in the data
+# Setup libraries/paths
 library(rgdal)
 library(reshape)
 library(ggmap)
 options(stringsAsFactors = FALSE)
-path <- "~/GitHub/rmnp_data_extraction"
+path <- "~/GitHub/rmnp_data_extraction"  # Rename to your own directory location
 setwd(path)
+if(!file.exists(paste(path, "campsites", sep = "/"))){
+  # Getting the zipped files
+  myPathToData <- paste(path, "spatial_data_files", sep = "/")
+  allFiles <- list.files(path = myPathToData, full.names = T)
+  names <- list.files(path = myPathToData, full.names = F)
+  names <- gsub(".zip", "", names)
+  # Unzip the files
+  for (i in 1:length(allFiles[grepl("zip", allFiles)])){
+    unzip(zipfile = allFiles[grepl("zip", allFiles)][i], list = FALSE, 
+          junkpaths = TRUE, exdir = paste(path, names[i], sep = "/"), 
+          overwrite = TRUE)
+  }
+}
+
+# Load data
 sites <- read.csv(paste(path, "sites.csv", sep = "/"))
 available <- as.data.frame(t(read.csv(paste(path, "availability.csv", sep = "/"), 
                                       header = T)))
